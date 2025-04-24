@@ -22,7 +22,7 @@ public class Empleado {
     private String telefono;
     private String direccion;
     private String area;
-    private double sueldo;
+    private Double sueldo;
 
 
 }

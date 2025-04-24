@@ -1,12 +1,14 @@
 package senati.rrhh.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import senati.rrhh.model.Cliente;
 import senati.rrhh.model.Empleado;
 import senati.rrhh.repository.ClienteRepository;
 
 import java.util.List;
 
+@Service
 public class ClienteService implements IClienteService{
 
     @Autowired

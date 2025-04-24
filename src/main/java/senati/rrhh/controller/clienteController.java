@@ -40,4 +40,65 @@ public class clienteController {
         respuesta.put("Cliente", nuevoCliente);
         return ResponseEntity.ok(respuesta);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> buscarCliente(@PathVariable Integer id){
+        Cliente cliente = clienteService.buscarClientes_id(id);
+        Map<String, Object> respuesta = new HashMap<>();
+        if(cliente != null){
+            respuesta.put("mensaje", "Cliente encontrado con exito");
+            respuesta.put("Cliente", cliente);
+            return ResponseEntity.ok(respuesta);
+        }else {
+            respuesta.put("mensaje", "Cliente no encontrado");
+            return ResponseEntity.ok(respuesta);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> actualizarCliente(@PathVariable Integer id, @RequestBody Cliente cliente) {
+
+        Cliente existeCliente = clienteService.buscarClientes_id(id);
+        Map<String, Object> respuesta = new HashMap<>();
+
+        if (existeCliente != null) {
+
+            if (cliente.getNombre() != null)
+                existeCliente.setNombre(cliente.getNombre());
+
+            if (cliente.getApellidos() != null)
+                existeCliente.setApellidos(cliente.getApellidos());
+
+            if (cliente.getEmail() != null)
+                existeCliente.setEmail(cliente.getEmail());
+
+            if (cliente.getTelefono() != null)
+                existeCliente.setTelefono(cliente.getTelefono());
+
+            if (cliente.getDireccion() != null)
+                existeCliente.setDireccion(cliente.getDireccion());
+
+            Cliente guardado = clienteService.guardarClientes(existeCliente);
+
+            respuesta.put("mensaje", "Cliente actualizado correctamente");
+            respuesta.put("Cliente", guardado);
+            return ResponseEntity.ok(respuesta);
+
+        } else {
+            respuesta.put("mensaje", "Cliente no encontrado");
+            return ResponseEntity.ok(respuesta);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarCliente(@PathVariable Integer id){
+        Cliente cliente = clienteService.buscarClientes_id(id);
+        if (cliente != null){
+            clienteService.eleminarCliente(cliente);
+            return ResponseEntity.noContent().build(); //204
+        }else {
+            return ResponseEntity.notFound().build(); //404
+        }
+    }
+
 }
